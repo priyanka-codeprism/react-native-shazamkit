@@ -3,6 +3,9 @@ buildscript {
   def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["Shazamkit_kotlinVersion"]
 
   repositories {
+    flatDir {
+        dirs 'libs'
+    }
     google()
     mavenCentral()
   }
@@ -25,6 +28,22 @@ def isNewArchitectureEnabled() {
 
 apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
+//apply plugin: 'maven-publish'
+
+// publishing {
+//     publications {
+//         aar(MavenPublication) {
+//             groupId = 'com.shazamkit'  // Make sure this is correct
+//             artifactId = 'shazamkit-android-release'  // Make sure this matches
+//             version = '1.0.0'  // Check the version here
+
+//             artifact("libs/shazamkit-android-release.aar") // Path to the AAR file
+//         }
+//     }
+//     repositories {
+//         mavenLocal()
+//     }
+// }
 
 if (isNewArchitectureEnabled()) {
   apply plugin: "com.facebook.react"
@@ -54,6 +73,7 @@ android {
     sourceSets {
       main {
         manifest.srcFile "src/main/AndroidManifestNew.xml"
+        jniLibs.srcDirs = ['libs']
       }
     }
   }
@@ -85,7 +105,9 @@ android {
 repositories {
   mavenCentral()
   google()
+  //mavenLocal()
 }
+
 
 def kotlin_version = getExtOrDefault("kotlinVersion")
 
@@ -95,5 +117,13 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compileOnly files('libs/shazamkit-android-release.aar')
+  //implementation files('shazamkit-android-release.aar')
+    //implementation(name: "shazamkit-android-release", ext: "aar")
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 }
 

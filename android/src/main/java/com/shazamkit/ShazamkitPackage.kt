@@ -8,7 +8,7 @@ import com.facebook.react.uimanager.ViewManager
 
 class ShazamkitPackage : ReactPackage {
   override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> {
-    return listOf(ShazamkitModule(reactContext))
+    return listOf(ShazamRecognizer(reactContext))
   }
 
   override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> {
